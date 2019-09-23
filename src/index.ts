@@ -23,7 +23,6 @@ async function run() {
         })
         .promise()
 
-      // fixme: NextToken is ignored
       core.debug(`parameters length: ${Parameters.length}`)
       core.debug(JSON.stringify(Parameters.map(p => p.Name)))
 

@@ -4,30 +4,30 @@
 
 create `.env` via AWS SSM parameters path
 
-## inputs
-ssm-paths: **required** `/ssm/paramters/path`  
-format: **dotenv** | shell
-  - dotenv: `KEY=value` **default**
-  - shell: `export KEY=value`  
-output: `.env` **default**  
-prefix: set environment prefix, `ACTION_` // ssm:/dev/client_id -> ACTION_CLIENT_ID'  
-
-## env
-AWS_ACCESS_KEY_ID: **required**  
-AWS_SECRET_ACCESS_KEY: **required**  
-AWS_DEFAULT_REGION: **required**  
-
 ## usage
 
 ```yaml
 
 - uses: deptno/action-aws-ssm-to-dotenv
-  with:
-    ssm-path: /opensource/action-aws-ssm-to-dotenv
   env:
+    # required
     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+    # required
     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    # required
     AWS_DEFAULT_REGION: ap-northeast-2
+  with:
+    # required, default=dotenv
+    ssm-path: /opensource/action-aws-ssm-to-dotenv
+    # optional, default=dotenv
+    # - default dotenv: KEY="value"
+    # -         shell:  export KEY="value"  
+    format: shell 
+    # optional, default ".env"
+    output: .env.development
+    # optional, export environment variable with specific prefix
+    # eg) `prefix: ACTION_` will exports `ACTION_ENV_VAR="value"`
+    prefix: SSM_
 ```
 
 [.github/workflows/test.yml](.github/workflows/test.yml)
