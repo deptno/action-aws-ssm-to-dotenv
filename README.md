@@ -1,6 +1,6 @@
 # action aws ssm to dotenv
 ![](https://github.com/deptno/action-aws-ssm-to-dotenv/workflows/test/badge.svg)
-![](https://github.com/deptno/action-aws-ssm-to-dotenv/workflows/v0/badge.svg)
+![](https://github.com/deptno/action-aws-ssm-to-dotenv/workflows/v1/badge.svg)
 
 create `.env` or **shell script** via AWS SSM parameters path
 
