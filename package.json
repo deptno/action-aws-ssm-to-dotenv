@@ -1,6 +1,6 @@
 {
   "name": "action-aws-ssm-to-dotenv",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "create `.env` with AWS SSM parameters path",
   "main": "lib/index.js",
   "scripts": {

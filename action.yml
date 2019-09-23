@@ -1,9 +1,9 @@
-name: 'deptno/action-aws-ssm-to-dotenv'
+name: 'AWS SSM to .env'
 description: 'load AWS SSM Parameters to `.env.`'
 author: 'Bonggyun Lee<deptno@gmail>'
 branding:
   icon: 'lock'
-  color: 'green'
+  color: 'yellow'
 inputs:
   ssm-paths:
     description: 'required. AWS SSM path for parameters eg. `/ssm/parameter`'
