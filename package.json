@@ -1,0 +1,38 @@
+{
+  "name": "action-aws-ssm-to-dotenv",
+  "version": "0.0.0",
+  "description": "create `.env` with AWS SSM parameters path",
+  "main": "lib/index.js",
+  "scripts": {
+    "compile": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deptno/action-aws-ssm-to-dotenv.git"
+  },
+  "keywords": [
+    "github",
+    "action",
+    "aws",
+    "ssm",
+    "parameters",
+    "env",
+    "dotenv",
+    ".env"
+  ],
+  "author": "Bonggyun Lee <deptno@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/deptno/action-aws-ssm-to-dotenv/issues"
+  },
+  "homepage": "https://github.com/deptno/action-aws-ssm-to-dotenv#readme",
+  "dependencies": {
+    "@actions/core": "^1.1.1",
+    "aws-sdk": "^2.533.0"
+  },
+  "devDependencies": {
+    "@types/node": "^10.14.18",
+    "typescript": "^3.6.3"
+  }
+}

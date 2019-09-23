@@ -1,0 +1,20 @@
+name: 'deptno/action-aws-ssm-to-dotenv'
+description: 'load AWS SSM Parameters to `.env.`'
+author: 'Bonggyun Lee<deptno@gmail>'
+branding:
+  icon: 'lock'
+  color: 'green'
+inputs:
+  ssm-paths:
+    description: 'required. AWS SSM path for parameters eg. `/ssm/parameter`'
+  format:
+    description: 'dotenv(KEY=value), shell(export KEY=value)'
+    default: 'dotenv'
+  output:
+    description: 'output filename'
+    default: '.env'
+  prefix:
+    description: 'if `prefix:ACTION_` ssm:/dev/client_id -> ACTION_CLIENT_ID'
+runs:
+  using: 'node12'
+  main: 'lib/index.js'
