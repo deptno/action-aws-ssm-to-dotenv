@@ -1,5 +1,5 @@
 name: 'AWS SSM to .env'
-description: 'load AWS SSM Parameters to `.env.`'
+description: 'load AWS SSM Parameters to `.env`'
 author: 'Bonggyun Lee<deptno@gmail>'
 branding:
   icon: 'lock'

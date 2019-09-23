@@ -2,13 +2,13 @@
 ![](https://github.com/deptno/action-aws-ssm-to-dotenv/workflows/test/badge.svg)
 ![](https://github.com/deptno/action-aws-ssm-to-dotenv/workflows/v0/badge.svg)
 
-create `.env` via AWS SSM parameters path
+create `.env` or **shell script** via AWS SSM parameters path
 
 ## usage
 
 ```yaml
 
-- uses: deptno/action-aws-ssm-to-dotenv@v1
+- uses: deptno/action-aws-ssm-to-dotenv@v1.0.1
   env:
     # required
     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
