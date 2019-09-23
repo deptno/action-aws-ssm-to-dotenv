@@ -8,7 +8,7 @@ create `.env` via AWS SSM parameters path
 
 ```yaml
 
-- uses: deptno/action-aws-ssm-to-dotenv
+- uses: deptno/action-aws-ssm-to-dotenv@v0
   env:
     # required
     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
