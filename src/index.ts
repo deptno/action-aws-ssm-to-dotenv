@@ -26,15 +26,17 @@ async function run() {
       core.debug(`parameters length: ${Parameters.length}`)
       core.debug(JSON.stringify(Parameters.map(p => p.Name)))
 
-      const content = Parameters
+      const envs = Parameters
         .map<Parameter>(p => ({
           ...p,
           Name: p.Name.split('/').pop(),
         }))
         .map<string>(formatter(format)(prefix))
-        .join('\n')
+      if (envs.length > 0) {
+        envs.push('\n')
+      }
 
-      writeFileSync(output, content)
+      writeFileSync(output, envs.join('\n'))
     } catch (e) {
       core.error(e)
       core.setFailed(e.message)

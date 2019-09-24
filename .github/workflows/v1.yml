@@ -2,13 +2,13 @@ name: v1
 on:
   push:
     tags:
-      - v1
+      - v1*
 
 jobs:
   v0:
     runs-on: ubuntu-latest
     steps:
-      - uses: deptno/action-aws-ssm-to-dotenv@v1.0.1
+      - uses: deptno/action-aws-ssm-to-dotenv@v1.0.2
         with:
           ssm-path: /opensource/action-aws-ssm-to-dotenv
         env:
