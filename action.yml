@@ -7,17 +7,21 @@ branding:
 inputs:
   ssm-paths:
     description: 'required. AWS SSM path for parameters eg. `/ssm/parameter`'
+    required: true
   format:
     description: 'dotenv(KEY=value), shell(export KEY=value)'
     default: 'dotenv'
+    required: false
   output:
     description: 'output filename'
     default: '.env'
+    required: false
   prefix:
     description: 'if `prefix:ACTION_` ssm:/dev/client_id -> ACTION_CLIENT_ID'
+    required: false
   decryption:
-    description: `(optional) Specifies if the decryption should be performed on SSM parameters'
-    default: 'true'
+    description: '(optional) Specifies if the decryption should be performed on SSM parameters'
+    required: false
 runs:
   using: 'node12'
   main: 'lib/index.js'
