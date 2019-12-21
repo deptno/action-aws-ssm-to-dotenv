@@ -1,5 +1,12 @@
 name: test
-on: [push]
+
+on:
+  pull_request:
+    branches:
+      - master
+  push:
+    branches:
+      - master
 
 jobs:
   default:
@@ -7,7 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - run: npm ci
-      - uses: ./
+      - uses: .
         with:
           ssm-path: /opensource/action-aws-ssm-to-dotenv
         env:
@@ -21,7 +28,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - run: npm ci
-      - uses: ./
+      - uses: .
         with:
           ssm-path: /opensource/action-aws-ssm-to-dotenv
           prefix: SSM_
