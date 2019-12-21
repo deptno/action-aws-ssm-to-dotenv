@@ -14,7 +14,7 @@ async function run() {
     const output = core.getInput('output', {required: true})
     const prefix = core.getInput('prefix')
     const allParameters: Parameter[] = []
-    const withDecryption = core.getInput('decryption') !== 'false'
+    const withDecryption = core.getInput('decryption') === 'true'
     let nextToken: string
 
     try {
