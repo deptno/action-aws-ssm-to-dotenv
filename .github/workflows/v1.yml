@@ -6,10 +6,10 @@ on:
       - v1*
 
 jobs:
-  v1_1_0:
+  v1_1_1:
     runs-on: ubuntu-latest
     steps:
-      - uses: deptno/action-aws-ssm-to-dotenv@v1.1.0
+      - uses: deptno/action-aws-ssm-to-dotenv@v1.1.1
         with:
           ssm-path: /opensource/action-aws-ssm-to-dotenv
         env:
