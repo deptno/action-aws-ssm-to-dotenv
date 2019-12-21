@@ -13,8 +13,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
+      - run: tree -d
       - run: npm ci
-      - uses: ./.github/actions/lib
+      - uses: ./.github/action-aws-ssm-to-dotenv
         with:
           ssm-path: /opensource/action-aws-ssm-to-dotenv
         env:
@@ -28,7 +29,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - run: npm ci
-      - uses: ./.github/actions/action-aws-ssm-to-dotenv
+      - uses: ./.github/action-aws-ssm-to-dotenv
         with:
           ssm-path: /opensource/action-aws-ssm-to-dotenv
           prefix: SSM_
