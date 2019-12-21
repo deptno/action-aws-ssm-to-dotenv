@@ -16,7 +16,7 @@ jobs:
       - run: ls -al
       - run: ls -al .github
       - run: npm ci
-      - uses: ./
+      - uses: deptno/action-aws-ssm-to-dotenv
         with:
           ssm-path: /opensource/action-aws-ssm-to-dotenv
         env:
@@ -30,7 +30,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - run: npm ci
-      - uses: .
+      - uses: deptno/action-aws-ssm-to-dotenv
         with:
           ssm-path: /opensource/action-aws-ssm-to-dotenv
           prefix: SSM_
