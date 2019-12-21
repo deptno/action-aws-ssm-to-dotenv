@@ -28,7 +28,7 @@ create `.env` or **shell script** via AWS SSM parameters path
     # optional, export environment variable with specific prefix
     # eg) `prefix: ACTION_` will exports `ACTION_ENV_VAR="value"`
     prefix: SSM_
-    #Should parameters be decrypted?
+    # should parameters be decrypted?
     decyption: true
 ```
 
