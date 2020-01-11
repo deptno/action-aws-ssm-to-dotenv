@@ -6,33 +6,42 @@ create `.env` or **shell script** via AWS SSM parameters path
 ## usage
 
 ```yaml
-
-- uses: deptno/action-aws-ssm-to-dotenv@v1.0.2
+- uses: deptno/action-aws-ssm-to-dotenv@v1.2.0
   env:
-    # required
-    AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-    # required
-    AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-    # required
-    AWS_DEFAULT_REGION: ap-northeast-2
+    AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }} # required
+    AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }} # required
+    AWS_DEFAULT_REGION: ap-northeast-2 # required
   with:
-    # required, default=dotenv
-    ssm-path: /opensource/action-aws-ssm-to-dotenv
-    # optional, default=dotenv
-    # - default dotenv: KEY="value"
-    # -         shell:  export KEY="value"  
-    format: shell 
-    # optional, default ".env"
+    ssm-path: /opensource/action-aws-ssm-to-dotenv # required
+    format: shell
     output: .env.development
-    # optional, export environment variable with specific prefix
-    # eg) `prefix: ACTION_` will exports `ACTION_ENV_VAR="value"`
     prefix: SSM_
-    # should parameters be decrypted?
-    decyption: true
+    decryption: true
 ```
+
+## option
+
+### ssm-path(required)
+AWS Systems Manager > Parameter Store > Path
+
+### format(default `dotenv`)
+optional, default=dotenv  
+  - dotenv: KEY="value" (default)
+  - shell: export KEY="value"  
+  - yaml: KEY: "value" 
+  
+### output(default `.env`)
+output filename
+
+### prefix(optional)
+add prefix to exported variable name  
+eg) `prefix: ACTION_` will export `ACTION_ENV_VAR="value"`
+
+### decryption(optional)
+should parameters be decrypted?
 
 [.github/workflows/test.yml](.github/workflows/test.yml)
 
 ---
-
+### License
 MIT

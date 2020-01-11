@@ -6,6 +6,18 @@ on:
       - v1*
 
 jobs:
+  v1_2_0:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: deptno/action-aws-ssm-to-dotenv@v1.2.0
+        with:
+          ssm-path: /opensource/action-aws-ssm-to-dotenv
+          format: yaml
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ap-northeast-2
+      - run: cat .env
   v1_1_1:
     runs-on: ubuntu-latest
     steps:
