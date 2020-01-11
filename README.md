@@ -6,7 +6,7 @@ create `.env` or **shell script** via AWS SSM parameters path
 ## usage
 
 ```yaml
-- uses: deptno/action-aws-ssm-to-dotenv@v1.2.0
+- uses: deptno/action-aws-ssm-to-dotenv@v1.3.0
   env:
     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }} # required
     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }} # required
@@ -18,6 +18,8 @@ create `.env` or **shell script** via AWS SSM parameters path
     prefix: SSM_
     decryption: true
 ```
+
+⚠️ if output file already exists `action_aws_ssm_to_dotenv` will append data to output file(1.3.0)
 
 ## option
 
@@ -41,6 +43,8 @@ eg) `prefix: ACTION_` will export `ACTION_ENV_VAR="value"`
 should parameters be decrypted?
 
 [.github/workflows/test.yml](.github/workflows/test.yml)
+
+## cabinet
 
 ---
 ### License

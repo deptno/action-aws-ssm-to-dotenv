@@ -1,7 +1,7 @@
 import * as core from '@actions/core'
 import * as AWS from 'aws-sdk'
 import {formatter} from './format'
-import {writeFileSync} from 'fs'
+import {appendFileSync, existsSync, writeFileSync} from 'fs'
 import {GetParametersByPathResult, Parameter} from 'aws-sdk/clients/ssm'
 
 async function run() {
@@ -44,7 +44,11 @@ async function run() {
         envs.push('\n')
       }
 
-      writeFileSync(output, envs.join('\n'))
+      if (existsSync(output)) {
+        appendFileSync(output, '\n' + envs.join('\n'))
+      } else {
+        writeFileSync(output, envs.join('\n'))
+      }
     } catch (e) {
       core.error(e)
       core.setFailed(e.message)
