@@ -45,8 +45,10 @@ async function run() {
       }
 
       if (existsSync(output)) {
+        console.log(`append to ${output} file`)
         appendFileSync(output, '\n' + envs.join('\n'))
       } else {
+        console.log(`create ${output} file`)
         writeFileSync(output, envs.join('\n'))
       }
     } catch (e) {
