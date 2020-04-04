@@ -22,8 +22,6 @@ async function run() {
     const ssmPathPrefixed = (ssmPath[0] == '/' ? ssmPath : '/' + ssmPath)
 
     try {
-
-
       do {
         const result: GetParametersByPathResult = await ssm
           .getParametersByPath({
@@ -43,9 +41,8 @@ async function run() {
         if (keepPrefix != 'false') {
           let r = addPrefix.toString() + s.replace(ssmPathPrefixed, '')
           return r.split('/').join('_')
-        } else {
+        } else
           return addPrefix.toString() + s.split('/').pop()
-        }
       }
       function transformWord(s, transform) {
         switch (transform) {
@@ -64,9 +61,9 @@ async function run() {
           core.exportVariable(Name, Value)
         }
         const regex = RegExp('[a-zA-Z_]+[a-zA-Z0-9_]*')
-        if (regex.test(Name)) {
+        if (!regex.test(Name))
           core.warning(`The Key name ${Name} doesn't comply with shell variable names: [a-zA-Z_]+[a-zA-Z0-9_]*`)
-        }
+
         return Name
       }
 
@@ -77,9 +74,9 @@ async function run() {
         }))
         .map<string>(formatter(format))
 
-      if (envs.length > 0) {
+      if (envs.length > 0)
         envs.push('\n')
-      }
+
 
       if (existsSync(output)) {
         console.log(`append to ${output} file`)
