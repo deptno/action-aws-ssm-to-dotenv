@@ -5,7 +5,7 @@ branding:
   icon: 'lock'
   color: 'yellow'
 inputs:
-  ssm-paths:
+  ssm-path:
     description: 'required. AWS SSM path for parameters eg. `/ssm/parameter`'
     required: true
   format:
