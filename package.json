@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/deptno/action-aws-ssm-to-dotenv#readme",
   "dependencies": {
-    "@actions/core": "^1.1.1",
+    "@actions/core": "^1.2.6",
     "aws-sdk": "^2.533.0"
   },
   "devDependencies": {
