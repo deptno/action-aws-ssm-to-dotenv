@@ -1,2 +1,1 @@
-export const formatShell = (prefix = '') =>
-  ({Name, Value}) => `export ${prefix}${Name}=${Value}`
+export const formatShell = ({Name, Value}) => `export ${Name}=${Value}`

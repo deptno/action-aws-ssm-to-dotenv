@@ -1,27 +1,48 @@
-name: 'AWS SSM to .env'
-description: 'load AWS SSM Parameters to `.env`'
-author: 'Bonggyun Lee<deptno@gmail>'
+name: "AWS SSM to .env"
+description: "load AWS SSM Parameters to `.env`"
+author: "Bonggyun Lee<deptno@gmail>"
 branding:
-  icon: 'lock'
-  color: 'yellow'
+  icon: "lock"
+  color: "yellow"
 inputs:
   ssm-path:
-    description: 'required. AWS SSM path for parameters eg. `/ssm/parameter`'
+    description: "required. AWS SSM path for parameters eg. `/ssm/parameter`"
     required: true
   format:
-    description: 'dotenv(KEY=value), shell(export KEY=value)'
-    default: 'dotenv'
+    description: >+
+      Examples:
+      `dotenv` will add the values to the file like   `key=value`
+      `shell`  will add the values to the file like   `export key=value`
+      `yaml`   will add the values to the file like   `key: value`
+      `JSON`   will add the values to the file like   `{"key": "value"}`
+    default: "dotenv"
+    required: false
+  set-as-env:
+    description: "Sets the values as environment variables for this GitHub Actions Job"
+    default: "true"
+    required: false
+  set-case:
+    description: 'Transform the keys to "upper", "lower", or "none" for unchanged'
+    default: "none"
     required: false
   output:
-    description: 'output filename'
-    default: '.env'
+    description: "output filename"
+    default: ".env"
     required: false
   prefix:
-    description: 'if `prefix:ACTION_` ssm:/dev/client_id -> ACTION_CLIENT_ID'
+    description: "if `prefix:ACTION_` ssm:/dev/client_id -> ACTION_client_id"
     required: false
+  prefix-paths:
+    required: false
+    default: "false"
+    description: >+
+      If "true" the relative path from the ssm-paths value to the parameter is prefixed on the key. 
+      So if the key full path is /envs/dev/mysql_user then if this is true and ssm-paths value was  
+      "/env/" the key presented would be "dev_mysql_user"'
   decryption:
-    description: '(optional) Specifies if the decryption should be performed on SSM parameters'
+    description: "(optional) Specifies if the decryption should be performed on SSM parameters"
     required: false
 runs:
-  using: 'node12'
-  main: 'lib/index.js'
+  using: "node12"
+  main: "lib/index.js"
+

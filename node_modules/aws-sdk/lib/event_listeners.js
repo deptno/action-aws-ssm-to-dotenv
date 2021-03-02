@@ -77,11 +77,11 @@ AWS.EventListeners = {
   Core: new SequentialExecutor().addNamedListeners(function(add, addAsync) {
     addAsync('VALIDATE_CREDENTIALS', 'validate',
         function VALIDATE_CREDENTIALS(req, done) {
-      if (!req.service.api.signatureVersion) return done(); // none
+      if (!req.service.api.signatureVersion && !req.service.config.signatureVersion) return done(); // none
       req.service.config.getCredentials(function(err) {
         if (err) {
           req.response.error = AWS.util.error(err,
-            {code: 'CredentialsError', message: 'Missing credentials in config'});
+            {code: 'CredentialsError', message: 'Missing credentials in config, if using AWS_CONFIG_FILE, set AWS_SDK_LOAD_CONFIG=1'});
         }
         done();
       });
@@ -133,7 +133,7 @@ AWS.EventListeners = {
       }
       var operation = req.service.api.operations[req.operation];
       var authtype = operation ? operation.authtype : '';
-      if (!req.service.api.signatureVersion && !authtype) return done(); // none
+      if (!req.service.api.signatureVersion && !authtype && !req.service.config.signatureVersion) return done(); // none
       if (req.service.getSignerClass(req) === AWS.Signers.V4) {
         var body = req.httpRequest.body || '';
         if (authtype.indexOf('unsigned-body') >= 0) {
@@ -207,7 +207,7 @@ AWS.EventListeners = {
       var operations = req.service.api.operations || {};
       var operation = operations[req.operation];
       var authtype = operation ? operation.authtype : '';
-      if (!service.api.signatureVersion && !authtype) return done(); // none
+      if (!service.api.signatureVersion && !authtype && !service.config.signatureVersion) return done(); // none
 
       service.config.getCredentials(function (err, credentials) {
         if (err) {
@@ -454,7 +454,7 @@ AWS.EventListeners = {
         if (resp.error.redirect && resp.redirectCount < resp.maxRedirects) {
           resp.error.retryDelay = 0;
         } else if (resp.retryCount < resp.maxRetries) {
-          resp.error.retryDelay = this.service.retryDelays(resp.retryCount) || 0;
+          resp.error.retryDelay = this.service.retryDelays(resp.retryCount, resp.error) || 0;
         }
       }
     });
@@ -473,7 +473,8 @@ AWS.EventListeners = {
         }
       }
 
-      if (willRetry) {
+      // delay < 0 is a signal from customBackoff to skip retries
+      if (willRetry && delay >= 0) {
         resp.error = null;
         setTimeout(done, delay);
       } else {

@@ -1,30 +1,34 @@
 import * as core from '@actions/core'
 import * as AWS from 'aws-sdk'
-import {formatter} from './format'
-import {appendFileSync, existsSync, writeFileSync} from 'fs'
-import {GetParametersByPathResult, Parameter} from 'aws-sdk/clients/ssm'
+import { formatter } from './format'
+import { appendFileSync, existsSync, writeFileSync } from 'fs'
+import { GetParametersByPathResult, Parameter } from 'aws-sdk/clients/ssm'
 
 async function run() {
   const region = process.env.AWS_DEFAULT_REGION
-  const ssm = new AWS.SSM({region})
+  const ssm = new AWS.SSM({ region })
 
   try {
-    const ssmPath = core.getInput('ssm-path', {required: true})
-    const format = core.getInput('format', {required: true})
-    const output = core.getInput('output', {required: true})
-    const prefix = core.getInput('prefix')
+    const ssmPath = core.getInput('ssm-path', { required: true })
+    const format = core.getInput('format', { required: true })
+    const output = core.getInput('output', { required: false })
+    const setAsEnv = core.getInput('set-as-env', { required: false })
+    const setCase = core.getInput('set-case', { required: false })
+    const prefixPaths = core.getInput('prefix-paths', { required: false })
+    const prefix = core.getInput('prefix', { required: false })
     const allParameters: Parameter[] = []
-    const withDecryption = core.getInput('decryption') === 'true'
+    const withDecryption = core.getInput('decryption', { required: false }) === 'true'
     let nextToken: string
+    const ssmPathPrefixed = (ssmPath[0] == '/' ? ssmPath : '/' + ssmPath)
 
     try {
       do {
         const result: GetParametersByPathResult = await ssm
           .getParametersByPath({
             WithDecryption: withDecryption,
-            Path          : ssmPath,
-            Recursive     : true,
-            NextToken     : nextToken,
+            Path: ssmPathPrefixed,
+            Recursive: true,
+            NextToken: nextToken,
           })
           .promise()
 
@@ -33,16 +37,46 @@ async function run() {
         allParameters.push(...result.Parameters)
       } while (nextToken)
 
+      function splitPaths(s, keepPrefix, addPrefix = '') {
+        if (keepPrefix != 'false') {
+          let r = addPrefix.toString() + s.replace(ssmPathPrefixed, '')
+          return r.split('/').join('_')
+        } else
+          return addPrefix.toString() + s.split('/').pop()
+      }
+      function transformWord(s, transform) {
+        switch (transform) {
+          case "upper":
+            return s.toUpperCase()
+          case "lower":
+            return s.toLowerCase()
+          default:
+            return s
+        }
+      }
+
+      function createJobENV(createEnv: string, Name: string, Value: string) {
+        if (createEnv != 'false') {
+          core.setOutput(Name, Value)
+          core.exportVariable(Name, Value)
+        }
+        const regex = RegExp('[a-zA-Z_]+[a-zA-Z0-9_]*')
+        if (!regex.test(Name))
+          core.warning(`The Key name ${Name} doesn't comply with shell variable names: [a-zA-Z_]+[a-zA-Z0-9_]*`)
+
+        return Name
+      }
 
       const envs = allParameters
         .map<Parameter>(p => ({
           Value: p.Value,
-          Name : p.Name.split('/').pop(),
+          Name: createJobENV(setAsEnv, transformWord(splitPaths(p.Name, prefixPaths, prefix), setCase), p.Value),
         }))
-        .map<string>(formatter(format)(prefix))
-      if (envs.length > 0) {
+        .map<string>(formatter(format))
+
+      if (envs.length > 0)
         envs.push('\n')
-      }
+
 
       if (existsSync(output)) {
         console.log(`append to ${output} file`)
