@@ -23,5 +23,5 @@ inputs:
     description: '(optional) Specifies if the decryption should be performed on SSM parameters'
     required: false
 runs:
-  using: 'node12'
+  using: 'node16'
   main: 'lib/index.js'
